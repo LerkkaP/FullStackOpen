@@ -74,17 +74,24 @@ const App = () => {
         updatePerson()
       } 
     } else {
-      setPersons(persons.concat({name: newName, number: newNumber}))
-      setNewName('')
-      setNewNumber('')
       personService
         .create(personObject)
-        setSuccessMessage(`Added ${newName}`)
-        setTimeout(() => {
-          setSuccessMessage(null)
-        }, 2500)
-
-    } 
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+          setSuccessMessage(`Added ${newName}`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 2500)
+        })
+        .catch(error => {
+          setSuccessMessage(error.response.data.error)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 2500)
+        })
+    }   
   }
 
   const handleNumber = (event) => {
