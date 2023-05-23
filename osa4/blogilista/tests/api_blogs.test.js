@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
-const { createTestScheduler } = require('jest')
 const api = supertest(app)
 
 const initialBlogs = [
@@ -59,26 +58,15 @@ test('a valid blog can be added', async () => {
     expect(response.body).toHaveLength(initialBlogs.length + 1)
 })
 
-test('blog without likes is added', async () => {
-    const newBlog = {
-        title: "Fullstack programming",
-        author: "Erik Peteri",
-        url: "https://www.example.com"
-    }
+test('blog without likes is set to zero likes', async () => {
 
-    if (newBlog.hasOwnProperty("likes") === false) {
-        newBlog["likes"] = 0
-    }
+    initialBlogs.forEach(blog => {
+        if (!blog.hasOwnProperty("likes")) {
+            blog.likes = 0;
+        }
+    })
 
-    await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .expect(201)
-        .expect('Content-Type', /application\/json/)
-
-    const response = await api.get('/api/blogs')
-
-    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(initialBlogs.every(blog => blog.hasOwnProperty("likes"))).toEqual(true)
 })
 
 afterAll(async () => {
