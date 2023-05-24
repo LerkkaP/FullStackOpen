@@ -8,8 +8,7 @@ const initialBlogs = [
     {
         "title": "New Blog",
         "author": "Blogikirjoittaja",
-        "url": "https://www.example.com",
-        "likes": 10
+        "url": "https://www.example.com"
     },
     {
         "title": "Fullstack programming",
@@ -59,14 +58,14 @@ test('a valid blog can be added', async () => {
 })
 
 test('blog without likes is set to zero likes', async () => {
+    const response = await api.get('/api/blogs')
+    const blogs = response.body
 
-    initialBlogs.forEach(blog => {
+    blogs.forEach(blog => {
         if (!blog.hasOwnProperty("likes")) {
-            blog.likes = 0;
+            expect(blog.likes).toBe(0)
         }
     })
-
-    expect(initialBlogs.every(blog => blog.hasOwnProperty("likes"))).toEqual(true)
 })
 
 afterAll(async () => {
