@@ -83,7 +83,21 @@ test('blog without title or url is not added', async () => {
     const response = await api.get('/api/blogs')
 
     expect(response.body).toHaveLength(initialBlogs.length)
+})
 
+test('individual blog can be deleted', async () => {
+
+    const blogs = await Blog.find({})
+
+    const blog = blogs.map(blog => blog.toJSON())
+
+    await api
+        .delete(`/api/blogs/${blog[0].id}`)
+        .expect(204)
+
+    const response = await api.get('/api/blogs')
+
+    expect(response.body).toHaveLength(initialBlogs.length - 1)
 })
 
 afterAll(async () => {
