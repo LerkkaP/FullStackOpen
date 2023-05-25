@@ -100,6 +100,22 @@ test('individual blog can be deleted', async () => {
     expect(response.body).toHaveLength(initialBlogs.length - 1)
 })
 
+test('individual blog can be modified', async () => {
+
+    const blogs = await Blog.find({})
+
+    const blog = blogs.map(blog => blog.toJSON())
+
+    await api
+        .put(`/api/blogs/${blog[0].id}`)
+        .expect(200)
+
+    const response = await api.get('/api/blogs')
+
+    expect(response.body).toHaveLength(initialBlogs.length)
+
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
