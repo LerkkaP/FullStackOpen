@@ -3,33 +3,20 @@ const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
 const api = supertest(app)
-
-const initialBlogs = [
-    {
-        "title": "New Blog",
-        "author": "Blogikirjoittaja",
-        "url": "https://www.example.com"
-    },
-    {
-        "title": "Fullstack programming",
-        "author": "Erik Peteri",
-        "url": "https://www.example.com",
-        "likes": 15
-    }
-]
+const helper = require('./test_helper')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
-    let blogObject = new Blog(initialBlogs[0])
+    let blogObject = new Blog(helper.initialBlogs[0])
     await blogObject.save()
-    blogObject = new Blog(initialBlogs[1])
+    blogObject = new Blog(helper.initialBlogs[1])
     await blogObject.save()
 })
 
 test('correct number of blogs', async () => {
     const response = await api.get('/api/blogs')
     
-    expect(response.body).toHaveLength(initialBlogs.length)
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
 test('blogs contain id', async () => {
@@ -54,7 +41,7 @@ test('a valid blog can be added', async () => {
     
     const response = await api.get('/api/blogs')
 
-    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
 })
 
 test('blog without likes is set to zero likes', async () => {
@@ -82,7 +69,7 @@ test('blog without title or url is not added', async () => {
 
     const response = await api.get('/api/blogs')
 
-    expect(response.body).toHaveLength(initialBlogs.length)
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
 test('individual blog can be deleted', async () => {
@@ -97,7 +84,7 @@ test('individual blog can be deleted', async () => {
 
     const response = await api.get('/api/blogs')
 
-    expect(response.body).toHaveLength(initialBlogs.length - 1)
+    expect(response.body).toHaveLength(helper.initialBlogs.length - 1)
 })
 
 test('individual blog can be modified', async () => {
@@ -112,7 +99,7 @@ test('individual blog can be modified', async () => {
 
     const response = await api.get('/api/blogs')
 
-    expect(response.body).toHaveLength(initialBlogs.length)
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
 
 })
 
