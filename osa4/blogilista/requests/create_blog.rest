@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVyaWtwZXRlcmkiLCJpZCI6IjY0NzJmMmQ5ODAyMTIxYmViZWM3ZDE0YiIsImlhdCI6MTY4NTI1NDk3NH0._KdWgk2PeCMoLXQM670ukTeFJdRwChz7KKPVpreNtc8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbnRza3VsaSIsImlkIjoiNjQ3MmZmNTZlMGMxYjY3N2I5ZGQ1NTk3IiwiaWF0IjoxNjg1MjU4MDgwfQ.oIG7GF9EaDTyCmfbr3bzHt7aN8L8MDbT0mi_U8HpvrM
 
 {
-  "title": "Tokenkirjautuminen",
-  "author": "token mestari",
+  "title": "testi timo",
+  "author": "testo timo",
   "url": "https://www.example.com",
   "likes": 20,
   "userId": "6472f2d9802121bebec7d14b"
