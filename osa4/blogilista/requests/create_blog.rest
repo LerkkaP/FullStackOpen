@@ -1,13 +1,13 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbnRza3VsaSIsImlkIjoiNjQ3MmZmNTZlMGMxYjY3N2I5ZGQ1NTk3IiwiaWF0IjoxNjg1MjU4MDgwfQ.oIG7GF9EaDTyCmfbr3bzHt7aN8L8MDbT0mi_U8HpvrM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVyaWtwZXRlcmkiLCJpZCI6IjY0NzM1MTIwYzI0ZGU5ZmI3MzQxNTJkMyIsImlhdCI6MTY4NTI3OTA0Mn0.JnFlFAnW-Vv0Sjf4Yy58bG-ESLtjcXq_xS1FSROCVOA
 
 {
-  "title": "testi timo",
-  "author": "testo timo",
+  "title": "uusi blogi",
+  "author": "testi mies",
   "url": "https://www.example.com",
   "likes": 20,
-  "userId": "6472f2d9802121bebec7d14b"
+  "userId": "64735120c24de9fb734152d3"
 
 }
 
