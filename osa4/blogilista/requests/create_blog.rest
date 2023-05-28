@@ -1,12 +1,13 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVyaWtwZXRlcmkiLCJpZCI6IjY0NzJmMmQ5ODAyMTIxYmViZWM3ZDE0YiIsImlhdCI6MTY4NTI1NDk3NH0._KdWgk2PeCMoLXQM670ukTeFJdRwChz7KKPVpreNtc8
 
 {
-  "title": "uusi blogi",
-  "author": "Blogikirjoittaja",
+  "title": "Tokenkirjautuminen",
+  "author": "token mestari",
   "url": "https://www.example.com",
-  "likes": 50,
-  "userId": "647216aa7fcd2f9b00b6159f"
+  "likes": 20,
+  "userId": "6472f2d9802121bebec7d14b"
 
 }
 
