@@ -1,13 +1,13 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbnRza3VsaSIsImlkIjoiNjQ3YzlmNDg1NjUzOTg0N2ZmZGE5N2RmIiwiaWF0IjoxNjg1ODkyNzExfQ.XKedIifvlZ4RY_yfQOwTYPTpQmCivfkPJHOty-0fVOQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVyaWtwZXRlcmkiLCJpZCI6IjY0N2RjOTQxMTYxOGFlOGExOThhZWNjYyIsImlhdCI6MTY4NTk2NTI1MH0.EKvqvCvv9yFSqpwpO8VaimOEUaS-lth8PiKUK8YBDA0
 
 {
-  "title": "uusi blogi",
-  "author": "testi",
+  "title": "Microservices and The First Law of Distributed Objects",
+  "author": "Martin Fowler",
   "url": "https://www.example.com",
   "likes": 20,
-  "userId": "647c9f4856539847ffda97df"
+  "userId": "647dc9411618ae8a198aeccc"
 
 }
 
