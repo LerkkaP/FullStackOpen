@@ -8,7 +8,8 @@ const App = () => {
   const [newTitle, setnewTitle] = useState('')
   const [newAuthor, setnewAuthor] = useState('')
   const [newUrl, setnewUrl] = useState('')
-
+  const [message, setMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -58,7 +59,10 @@ const App = () => {
     setUsername('')
     setPassword('')
   } catch (exception) {
-    console.log("error")
+    setErrorMessage("wrong username or password")
+    setTimeout(() => {
+      setErrorMessage('')
+    }, 2500);
   }
 }
 
@@ -73,7 +77,10 @@ const App = () => {
     blogService
       .create(blogObject)
         .then(returnedBlog => {
-          console.log(returnedBlog)
+          setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
+          setTimeout(() => {
+            setMessage('')
+          }, 2500);
         setBlogs(blogs.concat(returnedBlog))
         setnewTitle('')
       })
@@ -95,6 +102,7 @@ const App = () => {
   const loginForm = () => (
     <div>
     <h2>Log in to application</h2>
+    {errorMessage && <div className='error'>{errorMessage}</div>}
     <form onSubmit={handleLogin}>
       <div>
         username
@@ -165,6 +173,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      {message && <div className='success'>{message}</div>}
       <p>{user.name} logged in 
         <button onClick={handleLogout}>logout</button>
       </p>
