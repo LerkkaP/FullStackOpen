@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -87,7 +88,7 @@ const App = () => {
           }, 2500);
         setBlogs(blogs.concat(returnedBlog))
         setnewTitle('')
-        setCreateVisible(false)
+        setCreateVisible('')
       })
   }
 
