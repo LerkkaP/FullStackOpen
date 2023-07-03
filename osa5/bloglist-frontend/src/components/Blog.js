@@ -23,6 +23,12 @@ const Blog = ({ blog, user }) => {
     setUpdatedBlog(updatedBlogData)
   }
 
+  const handleDelete = async () => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      await blogService.remove(blog.id);
+    }
+  };
+
   return (
     <div style={blogStyle}>
       {updatedBlog.title} {updatedBlog.author} 
@@ -32,6 +38,9 @@ const Blog = ({ blog, user }) => {
           {`likes ${updatedBlog.likes}`} <button onClick={handleLike}>like</button>
         </div>
         <div>{user.name}</div>
+        <div>
+          <button onClick={handleDelete}>remove</button>
+        </div>
       </Togglable>
     </div>
   )
