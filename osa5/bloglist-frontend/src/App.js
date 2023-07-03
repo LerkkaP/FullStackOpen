@@ -136,7 +136,7 @@ const App = () => {
       {message && <div className='success'>{message}</div>}
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button> </p>
       <div style={hideWhenVisible}>
-        <button onClick={() => setCreateVisible(true)}>create new</button>
+        <button onClick={() => setCreateVisible(true)}>create new blog</button>
       </div>
       <div style={showWhenVisible}>
         <BlogForm
@@ -149,10 +149,10 @@ const App = () => {
         handleUrlChange = {handleUrlChange}
         />
         <button onClick={() => setCreateVisible(false)}>cancel</button>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog}/>
-        )}
       </div>
+      {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} user={user}/>
+        )}
     </div>
   )}
 
