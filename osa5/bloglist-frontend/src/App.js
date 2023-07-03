@@ -26,7 +26,9 @@ const App = () => {
       const filteredBlogs = blogs.filter(
         (blog) => blog.user.username === user.username
       );
-      setBlogs(filteredBlogs);
+      const sortedBlogs = filteredBlogs.sort((a, b) => b.likes - a.likes);
+
+      setBlogs(sortedBlogs);
     };
 
     if (user) {
