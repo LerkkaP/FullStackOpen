@@ -1,7 +1,7 @@
-import './Togglable';
-import Togglable from './Togglable';
-import { useState } from 'react'; // Import the useState hook
-import blogService from '../services/blogs';
+import './Togglable'
+import Togglable from './Togglable'
+import { useState } from 'react' // Import the useState hook
+import blogService from '../services/blogs'
 
 const Blog = ({ blog, user }) => {
   const [updatedBlog, setUpdatedBlog] = useState(blog)
@@ -12,7 +12,7 @@ const Blog = ({ blog, user }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
-  };
+  }
 
   const handleLike = async () => {
     const updatedLikes = updatedBlog.likes + 1
@@ -25,13 +25,13 @@ const Blog = ({ blog, user }) => {
 
   const handleDelete = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      await blogService.remove(blog.id);
+      await blogService.remove(blog.id)
     }
-  };
+  }
 
   return (
     <div style={blogStyle}>
-      {updatedBlog.title} {updatedBlog.author} 
+      {updatedBlog.title} {updatedBlog.author}
       <Togglable buttonLabel="view">
         <div>{updatedBlog.url}</div>
         <div>

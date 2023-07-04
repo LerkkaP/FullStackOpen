@@ -4,7 +4,6 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
-import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -22,20 +21,20 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const blogs = await blogService.getAll();
+      const blogs = await blogService.getAll()
       const filteredBlogs = blogs.filter(
         (blog) => blog.user.username === user.username
-      );
-      const sortedBlogs = filteredBlogs.sort((a, b) => b.likes - a.likes);
+      )
+      const sortedBlogs = filteredBlogs.sort((a, b) => b.likes - a.likes)
 
-      setBlogs(sortedBlogs);
-    };
+      setBlogs(sortedBlogs)
+    }
 
     if (user) {
-      fetchData();
+      fetchData()
     }
-  }, [user]);
-  
+  }, [user])
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -50,28 +49,28 @@ const App = () => {
   }
 
   const handleLogin = async (event) => {
-    event.preventDefault()  
+    event.preventDefault()
 
-  try {
-    const user = await loginService.login({
-      username, password,
-    })
+    try {
+      const user = await loginService.login({
+        username, password,
+      })
 
-    window.localStorage.setItem(
-      'loggedBlogappUser', JSON.stringify(user)
-    ) 
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
 
-    blogService.setToken(user.token)
-    setUser(user)
-    setUsername('')
-    setPassword('')
-  } catch (exception) {
-    setErrorMessage("wrong username or password")
-    setTimeout(() => {
-      setErrorMessage('')
-    }, 2500);
+      blogService.setToken(user.token)
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      setErrorMessage('wrong username or password')
+      setTimeout(() => {
+        setErrorMessage('')
+      }, 2500)
+    }
   }
-}
 
   const addBlog = (event) => {
     event.preventDefault()
@@ -83,11 +82,11 @@ const App = () => {
 
     blogService
       .create(blogObject)
-        .then(returnedBlog => {
-          setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
-          setTimeout(() => {
-            setMessage('')
-          }, 2500);
+      .then(returnedBlog => {
+        setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
+        setTimeout(() => {
+          setMessage('')
+        }, 2500)
         setBlogs(blogs.concat(returnedBlog))
         setnewTitle('')
         setCreateVisible('')
@@ -115,24 +114,24 @@ const App = () => {
           <button onClick={() => setLoginVisible(true)}>log in</button>
         </div>
         <div style={showWhenVisible}>
-        <LoginForm
-        username={username}
-        password={password}
-        handleLogin={handleLogin}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        errorMessage={errorMessage}
-      />
-      <button onClick={() => setLoginVisible(false)}>cancel</button>
+          <LoginForm
+            username={username}
+            password={password}
+            handleLogin={handleLogin}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            errorMessage={errorMessage}
+          />
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
+        </div>
       </div>
-    </div>
     )
   }
 
   const hideWhenVisible = { display: createVisible ? 'none' : '' }
   const showWhenVisible = { display: createVisible ? '' : 'none' }
   return (
-    
+
     <div>
       <h2>blogs</h2>
       {message && <div className='success'>{message}</div>}
@@ -142,19 +141,19 @@ const App = () => {
       </div>
       <div style={showWhenVisible}>
         <BlogForm
-        newTitle = {newTitle}
-        handleTitleChange = {handleTitleChange}
-        addBlog = {addBlog}
-        newAuthor = {newAuthor}
-        handleAuthorChange = {handleAuthorChange}
-        newUrl = {newUrl}
-        handleUrlChange = {handleUrlChange}
+          newTitle = {newTitle}
+          handleTitleChange = {handleTitleChange}
+          addBlog = {addBlog}
+          newAuthor = {newAuthor}
+          handleAuthorChange = {handleAuthorChange}
+          newUrl = {newUrl}
+          handleUrlChange = {handleUrlChange}
         />
         <button onClick={() => setCreateVisible(false)}>cancel</button>
       </div>
       {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user}/>
-        )}
+        <Blog key={blog.id} blog={blog} user={user}/>
+      )}
     </div>
   )}
 
