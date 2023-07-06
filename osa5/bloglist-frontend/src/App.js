@@ -7,9 +7,6 @@ import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newTitle, setnewTitle] = useState('')
-  const [newAuthor, setnewAuthor] = useState('')
-  const [newUrl, setnewUrl] = useState('')
   const [message, setMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [loginVisible, setLoginVisible] = useState(false)
@@ -72,37 +69,17 @@ const App = () => {
     }
   }
 
-  const addBlog = (event) => {
-    event.preventDefault()
-    const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl
-    }
-
+  const addBlog = (newBlog) => {
     blogService
-      .create(blogObject)
+      .create(newBlog)
       .then(returnedBlog => {
-        setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
+        setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
         setTimeout(() => {
           setMessage('')
         }, 2500)
         setBlogs(blogs.concat(returnedBlog))
-        setnewTitle('')
         setCreateVisible('')
       })
-  }
-
-  const handleTitleChange = (event) => {
-    setnewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setnewAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setnewUrl(event.target.value)
   }
 
   if (user === null) {
@@ -141,13 +118,7 @@ const App = () => {
       </div>
       <div style={showWhenVisible}>
         <BlogForm
-          newTitle = {newTitle}
-          handleTitleChange = {handleTitleChange}
-          addBlog = {addBlog}
-          newAuthor = {newAuthor}
-          handleAuthorChange = {handleAuthorChange}
-          newUrl = {newUrl}
-          handleUrlChange = {handleUrlChange}
+          createBlog={addBlog}
         />
         <button onClick={() => setCreateVisible(false)}>cancel</button>
       </div>
@@ -156,5 +127,6 @@ const App = () => {
       )}
     </div>
   )}
+
 
 export default App
