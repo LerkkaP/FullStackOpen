@@ -37,26 +37,26 @@ describe('Blog app ', function() {
         .and('have.css', 'border-style', 'solid')
 
       cy.get('html').should('not.contain', 'Erik Peteri logged in')
-
     })
-  })
 
-  /*describe('when logged in', function() {
+
+  describe('When logged in', function() {
     beforeEach(function() {
-      cy.contains('log in').click()
       cy.get('#username').type('erikpeteri')
       cy.get('#password').type('kilipukki')
       cy.get('#login-button').click()
     })
-
-    it('a new note can be created', function() {
+    
+    it('A blog can be created', function() {
       cy.contains('create new blog').click()
       cy.get('#title').type('Test Blog')
       cy.get('#author').type('Test Author')
       cy.get('#url').type('example.com')
-      cy.contains('create').click({force: true})
+      cy.get('button[type="submit"]').click({ force: true })
       cy.contains('Test Blog Test Author')
+      cy.get('.success').contains('a new blog Test Blog by Test Author added')
+      })
     })
-  })*/
+  })
 })
 
