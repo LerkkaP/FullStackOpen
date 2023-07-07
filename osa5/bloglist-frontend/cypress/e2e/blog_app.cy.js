@@ -17,14 +17,29 @@ describe('Blog app ', function() {
     cy.contains('login')
   })
 
-  /*it('user can login', function () {
-    cy.contains('Log in to application')
-    cy.get('#username').type('erikpeteri')
-    cy.get('#password').type('kilipukki')
-    cy.get('#login-button').click()
+  describe('Login',function() {
+    it('succeeds with correct credentials', function() {
+      cy.get('#username').type('erikpeteri')
+      cy.get('#password').type('kilipukki')
+      cy.get('#login-button').click()
+  
+      cy.contains('Erik Peteri logged in')
+    })
 
-    cy.contains('Erik Peteri logged in')
-  })*/
+    it('fails with wrong credentials', function() {
+      cy.get('#username').type('erikpeteri')
+      cy.get('#password').type('wrong')
+      cy.get('#login-button').click()
+  
+      cy.get('.error')
+        .should('contain', 'wrong username or password')
+        .and('have.css', 'color', 'rgb(255, 0, 0)')
+        .and('have.css', 'border-style', 'solid')
+
+      cy.get('html').should('not.contain', 'Erik Peteri logged in')
+
+    })
+  })
 
   /*describe('when logged in', function() {
     beforeEach(function() {
