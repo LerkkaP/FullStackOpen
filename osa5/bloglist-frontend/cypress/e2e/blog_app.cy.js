@@ -1,12 +1,20 @@
 describe('Blog app ', function() {
   beforeEach(function() {
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    const user = {
+    const user1 = {
       username: 'erikpeteri',
       name: 'Erik Peteri',
       password: 'kilipukki'
     }
-    cy.request('POST', 'http://localhost:3003/api/users/', user) 
+
+    const user2 = {
+      username: 'anotheruser',
+      name: 'Another User',
+      password: 'anotherpassword'
+    }
+
+    cy.request('POST', 'http://localhost:3003/api/users/', user1) 
+    cy.request('POST', 'http://localhost:3003/api/users/', user2)
     cy.visit('http://localhost:3000')
   })
 
@@ -83,6 +91,30 @@ describe('Blog app ', function() {
 
       cy.get('html').should('not.contain', 'Test Blog Test Author')
       })
+    it('Only the user who added a blog can see the delete button', function() {
+      cy.contains('create new blog').click()
+      cy.get('#title').type('Test Blog')
+      cy.get('#author').type('Test Author')
+      cy.get('#url').type('example.com')
+      cy.get('button[type="submit"]').click({ force: true })
+
+      cy.contains('logout').click()
+      cy.reload()
+
+      cy.get('#username').type('anotheruser')
+      cy.get('#password').type('anotherpassword')
+      cy.get('#login-button').click()
+      cy.get('html').should('not.contain', 'Test Blog Test Author')
+
+      cy.contains('logout').click()
+      cy.reload()
+
+      cy.get('#username').type('erikpeteri')
+      cy.get('#password').type('kilipukki')
+      cy.get('#login-button').click()
+      cy.contains('view').click()
+      cy.contains('remove')
+      })  
     })
   })
 })
