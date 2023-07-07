@@ -94,10 +94,10 @@ test('handleLike is called twice when the like button is clicked twice', async (
 })
 
 test('BlogForm calls createBlog with correct data when submitted', async () => {
-  const createBlogMock = jest.fn();
+  const createBlogMock = jest.fn()
   const user = userEvent.setup()
 
-  render(<BlogForm createBlog={createBlogMock} />);
+  render(<BlogForm createBlog={createBlogMock} />)
 
   const inputs = screen.getAllByRole('textbox')
   const sendButton = screen.getByText('create')
@@ -112,7 +112,7 @@ test('BlogForm calls createBlog with correct data when submitted', async () => {
   expect(createBlogMock.mock.calls[0][0].author).toBe('Test Blog')
   expect(createBlogMock.mock.calls[0][0].url).toBe('example.com')
 
-});
+})
 
 
 

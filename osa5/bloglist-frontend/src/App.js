@@ -9,7 +9,6 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [loginVisible, setLoginVisible] = useState(false)
   const [createVisible, setCreateVisible] = useState(false)
 
   const [username, setUsername] = useState('')
@@ -83,24 +82,16 @@ const App = () => {
   }
 
   if (user === null) {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    const showWhenVisible = { display: loginVisible ? '' : 'none' }
     return (
       <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
-        </div>
-        <div style={showWhenVisible}>
-          <LoginForm
-            username={username}
-            password={password}
-            handleLogin={handleLogin}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            errorMessage={errorMessage}
-          />
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
-        </div>
+        <LoginForm
+          username={username}
+          password={password}
+          handleLogin={handleLogin}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          errorMessage={errorMessage}
+        />
       </div>
     )
   }
