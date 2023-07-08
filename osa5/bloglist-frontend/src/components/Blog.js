@@ -30,7 +30,7 @@ const Blog = ({ blog, user }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog">
       {updatedBlog.title} {updatedBlog.author}
       <Togglable buttonLabel="view">
         <div>{updatedBlog.url}</div>
