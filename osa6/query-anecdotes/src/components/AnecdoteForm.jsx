@@ -19,6 +19,13 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
+    if (content.length < 5) {
+      dispatch({type: "ERROR", payload: content})
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR' })
+      }, 5000)
+      return null
+    }
     newAnecdoteMutation.mutate({ content, votes: 0})
     dispatch({type: "CREATE", payload: content})
     setTimeout(() => {
