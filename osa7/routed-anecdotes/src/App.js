@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Link, useParams
+import { BrowserRouter as Router, Route, Routes, Link, useParams,   useNavigate
 } from 'react-router-dom'
 
 import { useState } from 'react'
@@ -62,6 +62,8 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+  const navigate = useNavigate()
+
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
@@ -75,6 +77,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/')
   }
 
   return (
@@ -119,10 +122,17 @@ const App = () => {
   ])
 
   const [notification, setNotification] = useState('')
-
+  const [showNotification, setShowNotification] = useState(false)
+  
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(anecdote.content)
+    setShowNotification(true)
+    setTimeout(() => {
+      setNotification('')
+      setShowNotification(false) 
+    }, 5000)
   }
 
   const anecdoteById = (id) =>
@@ -144,6 +154,7 @@ const App = () => {
       <div>
         <h1>Software anecdotes</h1>
         <Menu />
+        {showNotification && <p> a new anecdote {notification} created!</p>}
         <Routes>
           <Route path='/anecdotes/:id' element={ <Anecdote anecdotes={anecdotes}/>} />
           <Route path='/' element={ <AnecdoteList anecdotes={anecdotes} />}/>
