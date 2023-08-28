@@ -3,12 +3,18 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-import notificationRedcuer from './reducers/notificationReducer'
+import notificationReducer from './reducers/notificationReducer'
+import blogReducer from './reducers/blogReducer'
 
-import { createStore } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 
-const store = createStore(notificationRedcuer)
+const store = configureStore({
+  reducer: {
+    notification: notificationReducer,
+    blogs: blogReducer
+  }
+})
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>

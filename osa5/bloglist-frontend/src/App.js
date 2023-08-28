@@ -6,15 +6,16 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 
 import { setNotification, clearNotification } from './reducers/notificationReducer'
+import { addBlogs, setBlogs } from './reducers/blogReducer'
 
 import { useDispatch, useSelector } from 'react-redux'
 
 const App = () => {
   const dispatch = useDispatch()
 
-  const message = useSelector((state) => state)
+  const message = useSelector((state) => state.notification)
+  const blogs = useSelector((state) => state.blogs)
 
-  const [blogs, setBlogs] = useState([])
   const [createVisible, setCreateVisible] = useState(false)
 
   const [username, setUsername] = useState('')
@@ -27,13 +28,13 @@ const App = () => {
       const filteredBlogs = blogs.filter((blog) => blog.user.username === user.username)
       const sortedBlogs = filteredBlogs.sort((a, b) => b.likes - a.likes)
 
-      setBlogs(sortedBlogs)
+      dispatch(setBlogs(sortedBlogs))
     }
 
     if (user) {
       fetchData()
     }
-  }, [user])
+  }, [user, blogs])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -80,7 +81,7 @@ const App = () => {
         dispatch(clearNotification())
       }, 2500)
 
-      setBlogs(blogs.concat(returnedBlog))
+      addBlogs(returnedBlog)
       setCreateVisible('')
     })
   }
