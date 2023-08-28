@@ -5,10 +5,16 @@ import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 
+import { setNotification, clearNotification } from './reducers/notificationReducer'
+
+import { useDispatch, useSelector } from 'react-redux'
+
 const App = () => {
+  const dispatch = useDispatch()
+
+  const message = useSelector((state) => state)
+
   const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
   const [createVisible, setCreateVisible] = useState(false)
 
   const [username, setUsername] = useState('')
@@ -58,19 +64,22 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong username or password')
+      dispatch(setNotification('wrong username or password'))
       setTimeout(() => {
-        setErrorMessage('')
+        dispatch(clearNotification())
       }, 2500)
     }
   }
 
   const addBlog = (newBlog) => {
     blogService.create(newBlog).then((returnedBlog) => {
-      setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+      let content = `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
+
+      dispatch(setNotification(content))
       setTimeout(() => {
-        setMessage('')
+        dispatch(clearNotification())
       }, 2500)
+
       setBlogs(blogs.concat(returnedBlog))
       setCreateVisible('')
     })
@@ -85,7 +94,7 @@ const App = () => {
           handleLogin={handleLogin}
           handleUsernameChange={({ target }) => setUsername(target.value)}
           handlePasswordChange={({ target }) => setPassword(target.value)}
-          errorMessage={errorMessage}
+          errorMessage={message}
         />
       </div>
     )
