@@ -18,9 +18,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       const blogs = await blogService.getAll()
-      const filteredBlogs = blogs.filter(
-        (blog) => blog.user.username === user.username
-      )
+      const filteredBlogs = blogs.filter((blog) => blog.user.username === user.username)
       const sortedBlogs = filteredBlogs.sort((a, b) => b.likes - a.likes)
 
       setBlogs(sortedBlogs)
@@ -49,12 +47,11 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username, password,
+        username,
+        password
       })
 
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
       setUser(user)
@@ -69,16 +66,14 @@ const App = () => {
   }
 
   const addBlog = (newBlog) => {
-    blogService
-      .create(newBlog)
-      .then(returnedBlog => {
-        setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
-        setTimeout(() => {
-          setMessage('')
-        }, 2500)
-        setBlogs(blogs.concat(returnedBlog))
-        setCreateVisible('')
-      })
+    blogService.create(newBlog).then((returnedBlog) => {
+      setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+      setTimeout(() => {
+        setMessage('')
+      }, 2500)
+      setBlogs(blogs.concat(returnedBlog))
+      setCreateVisible('')
+    })
   }
 
   if (user === null) {
@@ -99,25 +94,24 @@ const App = () => {
   const hideWhenVisible = { display: createVisible ? 'none' : '' }
   const showWhenVisible = { display: createVisible ? '' : 'none' }
   return (
-
     <div>
       <h2>blogs</h2>
-      {message && <div className='success'>{message}</div>}
-      <p>{user.name} logged in <button onClick={handleLogout}>logout</button> </p>
+      {message && <div className="success">{message}</div>}
+      <p>
+        {user.name} logged in <button onClick={handleLogout}>logout</button>{' '}
+      </p>
       <div style={hideWhenVisible}>
         <button onClick={() => setCreateVisible(true)}>create new blog</button>
       </div>
       <div style={showWhenVisible}>
-        <BlogForm
-          createBlog={addBlog}
-        />
+        <BlogForm createBlog={addBlog} />
         <button onClick={() => setCreateVisible(false)}>cancel</button>
       </div>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user}/>
-      )}
+      {blogs.map((blog) => (
+        <Blog key={blog.id} blog={blog} user={user} />
+      ))}
     </div>
-  )}
-
+  )
+}
 
 export default App

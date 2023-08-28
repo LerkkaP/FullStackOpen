@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render, screen, waitFor  } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 import blogService from '../services/blogs'
@@ -24,11 +24,11 @@ test('renders blog title and author, but not URL and likes by default', () => {
     title: 'Test Blog',
     author: 'Test Author',
     url: 'https://example.com',
-    likes: 10,
+    likes: 10
   }
 
   const user = {
-    name: 'Test User',
+    name: 'Test User'
   }
 
   render(<Blog blog={blog} user={user} />)
@@ -45,13 +45,12 @@ test('renders url, likes and user when view button is pressed', () => {
     title: 'Test Blog',
     author: 'Test Author',
     url: 'https://example.com',
-    likes: 10,
+    likes: 10
   }
 
   const user = {
-    name: 'Test User',
+    name: 'Test User'
   }
-
 
   render(<Blog blog={blog} user={user} />)
 
@@ -73,7 +72,7 @@ test('handleLike is called twice when the like button is clicked twice', async (
     title: 'Test Blog',
     author: 'Test Author',
     url: 'https://example.com',
-    likes: 10,
+    likes: 10
   }
   const user = {
     name: 'Test User'
@@ -111,14 +110,4 @@ test('BlogForm calls createBlog with correct data when submitted', async () => {
   expect(createBlogMock.mock.calls[0][0].title).toBe('Test Author')
   expect(createBlogMock.mock.calls[0][0].author).toBe('Test Blog')
   expect(createBlogMock.mock.calls[0][0].url).toBe('example.com')
-
 })
-
-
-
-
-
-
-
-
-
