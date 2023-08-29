@@ -4,12 +4,15 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Users from './components/Users'
 
 import { setNotification, clearNotification } from './reducers/notificationReducer'
 import { addBlogs, setBlogs } from './reducers/blogReducer'
 import { setUser } from './reducers/userReducer'
 
 import { useDispatch, useSelector } from 'react-redux'
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -103,6 +106,42 @@ const App = () => {
 
   const hideWhenVisible = { display: createVisible ? 'none' : '' }
   const showWhenVisible = { display: createVisible ? '' : 'none' }
+  return (
+    <div>
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                message={message}
+                user={user}
+                handleLogout={handleLogout}
+                hideWhenVisible={hideWhenVisible}
+                showWhenVisible={showWhenVisible}
+                addBlog={addBlog}
+                blogs={blogs}
+                setCreateVisible={setCreateVisible}
+              />
+            }
+          />
+          <Route path="/users" element={<Users />} />
+        </Routes>
+      </Router>
+    </div>
+  )
+}
+
+const Home = ({
+  message,
+  user,
+  handleLogout,
+  hideWhenVisible,
+  showWhenVisible,
+  addBlog,
+  blogs,
+  setCreateVisible
+}) => {
   return (
     <div>
       <h2>blogs</h2>
