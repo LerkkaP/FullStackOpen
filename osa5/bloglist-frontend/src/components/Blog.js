@@ -1,10 +1,14 @@
 import './Togglable'
 import Togglable from './Togglable'
-import { useState } from 'react' // Import the useState hook
 import blogService from '../services/blogs'
 
+import { updateLikes } from '../reducers/blogReducer'
+
+import { useDispatch } from 'react-redux'
+
 const Blog = ({ blog, user }) => {
-  const [updatedBlog, setUpdatedBlog] = useState(blog)
+  const dispatch = useDispatch()
+  const updatedBlog = blog
 
   const blogStyle = {
     paddingTop: 10,
@@ -19,8 +23,7 @@ const Blog = ({ blog, user }) => {
     const updatedBlogData = { ...updatedBlog, likes: updatedLikes }
 
     await blogService.update(updatedBlog.id, updatedBlogData)
-
-    setUpdatedBlog(updatedBlogData)
+    dispatch(updateLikes(updatedBlogData))
   }
 
   const handleDelete = async () => {

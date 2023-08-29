@@ -5,13 +5,18 @@ const blogSlice = createSlice({
   initialState: [],
   reducers: {
     addBlogs(state, action) {
-      state.push(action.payload)
+      const sortedBlogs = action.payload.sort((a, b) => b.likes - a.likes)
+      state.push(sortedBlogs)
     },
     setBlogs(state, action) {
       return action.payload
+    },
+    updateLikes(state, action) {
+      const updatedBlog = action.payload
+      return state.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog))
     }
   }
 })
 
-export const { addBlogs, setBlogs } = blogSlice.actions
+export const { addBlogs, setBlogs, updateLikes } = blogSlice.actions
 export default blogSlice.reducer

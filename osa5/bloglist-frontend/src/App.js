@@ -7,6 +7,7 @@ import BlogForm from './components/BlogForm'
 
 import { setNotification, clearNotification } from './reducers/notificationReducer'
 import { addBlogs, setBlogs } from './reducers/blogReducer'
+import { setUser } from './reducers/userReducer'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -15,20 +16,19 @@ const App = () => {
 
   const message = useSelector((state) => state.notification)
   const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
 
   const [createVisible, setCreateVisible] = useState(false)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
       const blogs = await blogService.getAll()
       const filteredBlogs = blogs.filter((blog) => blog.user.username === user.username)
-      const sortedBlogs = filteredBlogs.sort((a, b) => b.likes - a.likes)
 
-      dispatch(setBlogs(sortedBlogs))
+      dispatch(setBlogs(filteredBlogs))
     }
 
     if (user) {
@@ -40,7 +40,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUser(user))
       blogService.setToken(user.token)
     }
   }, [])
@@ -61,7 +61,7 @@ const App = () => {
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUser(user))
       setUsername('')
       setPassword('')
     } catch (exception) {

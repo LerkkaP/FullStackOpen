@@ -5,6 +5,7 @@ import './index.css'
 
 import notificationReducer from './reducers/notificationReducer'
 import blogReducer from './reducers/blogReducer'
+import userReducer from './reducers/userReducer'
 
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
@@ -12,7 +13,8 @@ import { Provider } from 'react-redux'
 const store = configureStore({
   reducer: {
     notification: notificationReducer,
-    blogs: blogReducer
+    blogs: blogReducer,
+    user: userReducer
   }
 })
 
