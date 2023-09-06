@@ -1,9 +1,23 @@
-const Authors = (props) => {
-  if (!props.show) {
-    return null
-  }
-  const authors = []
+import { gql, useQuery } from "@apollo/client";
 
+const ALL_AUTHORS = gql`
+  query {
+    allAuthors {
+      name
+      born
+      bookCount
+    }
+  }
+`;
+
+const Authors = (props) => {
+  const result = useQuery(ALL_AUTHORS);
+  if (!props.show) {
+    return null;
+  } else if (result.loading) {
+    return <div>Loading...</div>;
+  }
+  const authors = result.data.allAuthors;
   return (
     <div>
       <h2>authors</h2>
@@ -24,7 +38,7 @@ const Authors = (props) => {
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default Authors
+export default Authors;
