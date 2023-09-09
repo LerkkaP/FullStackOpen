@@ -2,6 +2,8 @@ const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
 const { v1: uuid } = require("uuid");
 
+const { GraphQLError } = require("graphql");
+
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const Author = require("./models/author");
@@ -106,11 +108,58 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args) => {
+      const existingBook = await Book.findOne({ title: args.title });
+
+      if (existingBook) {
+        throw new GraphQLError("Title must be unique", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
+
+      const existingAuthor = await Author.findOne({ name: args.author });
+
+      if (existingAuthor) {
+        throw new GraphQLError("Author's name must be unique", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
+
       let author = await Author.findOne({ name: args.author });
+
+      if (args.title.length < 5) {
+        throw new GraphQLError("Title must have at least 5 characters", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
+
+      if (args.author.length < 4) {
+        throw new GraphQLError(
+          "Author's name must have at least 4 characters",
+          {
+            extensions: {
+              code: "BAD_USER_INPUT",
+            },
+          }
+        );
+      }
 
       if (!author) {
         const newAuthor = new Author({ name: args.author });
-        await newAuthor.save();
+        try {
+          await newAuthor.save();
+        } catch (error) {
+          throw new GraphQLError("Saving author failed", {
+            extensions: {
+              code: "BAD_USER_INPUT",
+            },
+          });
+        }
         author = newAuthor;
       }
 
@@ -121,7 +170,15 @@ const resolvers = {
         genres: args.genres,
       });
 
-      await book.save();
+      try {
+        await book.save();
+      } catch (error) {
+        throw new GraphQLError("Saving book failed", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
 
       return book;
     },
