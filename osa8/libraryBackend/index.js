@@ -2,6 +2,26 @@ const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
 const { v1: uuid } = require("uuid");
 
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
+const Author = require("./models/author");
+const Book = require("./models/book");
+
+require("dotenv").config();
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+console.log("connecting to", MONGODB_URI);
+
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => {
+    console.log("connected to MongoDB");
+  })
+  .catch((error) => {
+    console.log("error connection to MongoDB:", error.message);
+  });
+
 let authors = [
   {
     name: "Robert Martin",
@@ -94,10 +114,6 @@ let books = [
   },
 ];
 
-/*
-  you can remove the placeholder query once your first one has been implemented 
-*/
-
 const typeDefs = `
 
   type Author {
@@ -108,18 +124,19 @@ const typeDefs = `
 
   type Book {
     title: String!
-    author: String!
     published: Int!
+    author: Author!
     genres: [String!]!
+    id: ID!
   }
 
   type Mutation {
     addBook(
       title: String!
-      author: String
+      author: String!
       published: Int!
       genres: [String!]!
-    ): Book
+    ): Book!
     editAuthor(
       name: String!
       setBornTo: Int!
@@ -153,37 +170,33 @@ const resolvers = {
         return books;
       }
     },
-    allAuthors: () => {
-      return authors.map((author) => ({
-        name: author.name,
-        born: author.born,
-        bookCount: books.filter((book) => book.author === author.name).length,
-      }));
+    allAuthors: async () => {
+      const authors = await Author.find({});
+      return authors;
     },
   },
   Mutation: {
-    addBook: (root, args) => {
-      let author = authors.find((author) => author.name === args.author);
-      if (!author) {
-        author = {
-          name: args.author,
-          id: uuid(),
-        };
-        authors.push(author);
-      }
-      let book = {
-        title: args.title,
-        author: args.author,
-        published: args.published,
-        genres: args.genres,
-        id: uuid(),
-      };
+    addBook: async (root, args) => {
+      let author = await Author.findOne({ name: args.author });
 
-      books.push(book);
+      if (!author) {
+        const newAuthor = new Author({ name: args.author });
+        await newAuthor.save();
+        author = newAuthor;
+      }
+
+      const book = new Book({
+        title: args.title,
+        published: args.published,
+        author: author._id,
+        genres: args.genres,
+      });
+
+      await book.save();
 
       return book;
     },
-    editAuthor: (root, args) => {
+    /*editAuthor: (root, args) => {
       let author = authors.find((author) => author.name === args.name);
       if (!author) {
         return null;
@@ -192,7 +205,7 @@ const resolvers = {
       const updatedAuthor = { ...author, born: args.setBornTo };
       authors = authors.map((a) => (a.name === args.name ? updatedAuthor : a));
       return updatedAuthor;
-    },
+    },*/
   },
 };
 
