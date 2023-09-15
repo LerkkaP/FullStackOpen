@@ -21,6 +21,15 @@ export const CREATE_BOOK = gql`
   }
 `;
 
+export const FAVORITE_GENRE = gql`
+  query Me {
+    me {
+      username
+      favoriteGenre
+    }
+  }
+`;
+
 export const ALL_AUTHORS = gql`
   query {
     allAuthors {
