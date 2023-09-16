@@ -79,6 +79,8 @@ const typeDefs = `
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
     me: User
+    booksByGenre(genre: String!): [Book!]!
+    allGenres: [String!]!
   }
 `;
 
@@ -97,7 +99,7 @@ const resolvers = {
         }
       }
       if (args.genre) {
-        query.genres = args.genre;
+        query.genres = { $in: [args.genre] };
       }
 
       return await Book.find(query).populate("author");
@@ -126,6 +128,20 @@ const resolvers = {
     },
     me: (root, args, context) => {
       return context.currentUser;
+    },
+    booksByGenre: async (root, args) => {
+      if (args.genre === "all") {
+        return await Book.find({}).populate("author");
+      }
+
+      return await Book.find({ genres: { $in: [args.genre] } }).populate(
+        "author"
+      );
+    },
+    allGenres: async () => {
+      const books = await Book.find({});
+      const genres = [...new Set(books.flatMap((book) => book.genres))];
+      return genres;
     },
   },
   Mutation: {
