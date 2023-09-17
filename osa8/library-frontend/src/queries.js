@@ -69,3 +69,21 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const ALL_GENRES = gql`
+  query {
+    allGenres
+  }
+`;
+
+export const BOOKS_BY_GENRE = gql`
+  query BooksByGenre($genre: String!) {
+    booksByGenre(genre: $genre) {
+      author {
+        name
+      }
+      published
+      title
+    }
+  }
+`;

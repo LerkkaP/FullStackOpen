@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useState } from "react";
+import { useApolloClient } from "@apollo/client";
 
 const ALL_GENRES = gql`
   query {
@@ -25,6 +26,11 @@ const Books = (props) => {
   const handleGenre = (g) => {
     setGenre(g);
   };
+
+  const client = useApolloClient();
+
+  const cacheContent = client.cache.extract();
+  console.log("Cache Content:", cacheContent);
 
   const { loading, error, data } = useQuery(ALL_GENRES);
 
