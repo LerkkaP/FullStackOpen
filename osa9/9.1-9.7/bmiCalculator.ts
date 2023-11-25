@@ -2,7 +2,7 @@ const calculateBmi = (height: number, weight: number): string => {
   if (height === 0 || weight === 0) {
     return "Only positive numbers are allowed!";
   }
-  var bmi = weight / (height / 100) ** 2;
+  const bmi = weight / (height / 100) ** 2;
   if (bmi < 16.0) {
     return "Underweight (Severe thinness)";
   } else if (bmi >= 16.0 && bmi <= 16.9) {
@@ -21,7 +21,7 @@ const calculateBmi = (height: number, weight: number): string => {
     return "Obese (Class 3)";
   }
 
-  return "Something went wrong!"
+  return "Something went wrong!";
 };
 
 const height: number = Number(process.argv[2]);
@@ -29,4 +29,4 @@ const weight: number = Number(process.argv[3]);
 
 console.log(calculateBmi(height, weight));
 
-export default calculateBmi
+export default calculateBmi;

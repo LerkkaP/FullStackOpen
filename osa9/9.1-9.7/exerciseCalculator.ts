@@ -1,4 +1,4 @@
-interface resultObject {
+export interface resultObject {
   periodLength: number;
   trainingDays: number;
   success: boolean;
@@ -14,8 +14,8 @@ const calculateExercises = (hours: number[], target: number): resultObject => {
   const average = hours.reduce((acc, curr) => acc + curr, 0) / periodLength;
   const success = average >= target;
 
-  var rating: number = 0;
-  var ratingDescription: string = '';
+  let rating: number = 0;
+  let ratingDescription: string = '';
 
   if (average < target) {
     rating = 1;
@@ -61,3 +61,5 @@ try {
   }
   console.log(errorMessage);
 }
+
+export default calculateExercises;
