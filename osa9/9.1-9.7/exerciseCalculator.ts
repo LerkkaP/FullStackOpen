@@ -14,8 +14,8 @@ const calculateExercises = (hours: number[], target: number): resultObject => {
   const average = hours.reduce((acc, curr) => acc + curr, 0) / periodLength;
   const success = average >= target;
 
-  var rating: number;
-  var ratingDescription: string;
+  var rating: number = 0;
+  var ratingDescription: string = '';
 
   if (average < target) {
     rating = 1;

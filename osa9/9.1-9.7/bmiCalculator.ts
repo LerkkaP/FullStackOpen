@@ -20,9 +20,13 @@ const calculateBmi = (height: number, weight: number): string => {
   } else if (bmi >= 40.0) {
     return "Obese (Class 3)";
   }
+
+  return "Something went wrong!"
 };
 
 const height: number = Number(process.argv[2]);
 const weight: number = Number(process.argv[3]);
 
 console.log(calculateBmi(height, weight));
+
+export default calculateBmi
