@@ -1,5 +1,5 @@
 import patientsData from "../data/patients";
-import { NonSensitivePatients, NewPatient, Patient } from "../types";
+import { NonSensitivePatients, NewPatient, Patient, Gender } from "../types";
 import { v1 as uuid } from "uuid";
 
 const getPatients = (): NonSensitivePatients[] => {
@@ -7,7 +7,7 @@ const getPatients = (): NonSensitivePatients[] => {
     id,
     name,
     dateOfBirth,
-    gender,
+    gender: gender as Gender,
     occupation,
   }));
 };
