@@ -58,6 +58,9 @@ const App = () => {
       }
     }
   }
+
+  console.log(visibility)
+
   return (
   <div>
     <h2>Add new entry</h2>
@@ -66,13 +69,23 @@ const App = () => {
     )}
     <form onSubmit={diaryCreation}>
       <div>
-        date<input value={date} onChange={(event) => setDate(event.target.value)}/>
+        date<input value={date} type="date" onChange={(event) => setDate(event.target.value)} />
+      </div>
+
+      <div>
+        visibility
+        great <input type="radio" value="great" name="visibility" checked={visibility === "great"} onChange={(event) => setVisibility(event.target.value)}/>
+        good <input type="radio" value="good" name="visiblity" checked={visibility === "good"} onChange={(event) => setVisibility(event.target.value)}/>
+        ok <input type="radio" value="ok" name="visiblity" checked={visibility === "ok"} onChange={(event) => setVisibility(event.target.value)}/>
+        poor <input type="radio" value="poor" name="visiblity" checked={visibility === "poor"} onChange={(event) => setVisibility(event.target.value)}/>
       </div>
       <div>
-        visibility<input value={visibility} onChange={(event) => setVisibility(event.target.value)}/>
-      </div>
-      <div>
-        weather<input value={weather} onChange={(event) => setWeather(event.target.value)}/>
+        weather
+        sunny <input type="radio" value="sunny"  name="weather" checked={weather === "sunny"} onChange={(event) => setWeather(event.target.value)}/>
+        rainy <input type="radio" value="rainy" name="weather" checked={weather === "rainy"} onChange={(event) => setWeather(event.target.value)}/>
+        cloudy <input type="radio" value="cloudy" name="weather" checked={weather === "cloudy"} onChange={(event) => setWeather(event.target.value)}/>
+        stormy <input type="radio" value="stormy" name="weather" checked={weather === "stormy"} onChange={(event) => setWeather(event.target.value)}/>
+        windy <input type="radio" value="windy" name="weather" checked={weather === "windy"} onChange={(event) => setWeather(event.target.value)}/>
       </div>
       <div>
         comment<input value={comment} onChange={(event) => setComment(event.target.value)}/>
